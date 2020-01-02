@@ -1,0 +1,23 @@
+[
+  {
+    "model": "expense_management.Expense_status",
+    "pk": 1,
+    "fields": {
+      "status": "Pending"
+    }
+  },
+  {
+    "model": "expense_management.Expense_status",
+    "pk": 2,
+    "fields": {
+      "status": "Accepted"
+    }
+  },
+  {
+    "model": "expense_management.Expense_status",
+    "pk": 3,
+    "fields": {
+      "status": "Declined"
+    }
+  }
+]

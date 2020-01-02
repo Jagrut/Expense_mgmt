@@ -1,0 +1,52 @@
+.container h1{
+	text-align: center;
+}
+
+.stats{
+  background: #fff;
+  height: 6em;
+  padding:1em;
+  margin:1em 0; 
+  -webkit-transition: margin 0.5s ease,box-shadow 0.5s ease; /* Safari */
+  transition: margin 0.5s ease,box-shadow 0.5s ease; 
+  -moz-box-shadow:0px 0.2em 0.4em rgb(0, 0, 0,0.8);
+  -webkit-box-shadow:0px 0.2em 0.4em rgb(0, 0, 0,0.8);
+  box-shadow:0px 0.2em 0.4em rgb(0, 0, 0,0.8);
+  text-align: center;
+}
+
+.stats:hover{ 
+  margin-top:0.5em;  
+  -moz-box-shadow:0px 0.4em 0.5em rgb(0, 0, 0,0.8); 
+-webkit-box-shadow:0px 0.4em 0.5em rgb(0, 0, 0,0.8); 
+box-shadow:0px 0.4em 0.5em rgb(0, 0, 0,0.8); 
+}
+
+.stats b{
+	font-size: 2em;
+}
+.stats.expense { background: rgb(26, 188, 156); color:white;} 
+.stats.pending { background: rgb(52, 152, 219); color:white;}
+.stats.accepted { background: rgb(155, 89, 182); color:white;}
+.stats.declined { background: rgb(52, 73, 94); color:white;}
+
+.btn-cls{
+    margin: 15px 15px;
+}
+
+.hidden{
+	display: none;
+}
+
+.show{
+	display: block;
+}
+
+#temp-msg-success{
+	text-align: center;
+}
+
+.orange-row {background-color: rgb(235, 147, 22) !important; color: white;}
+.green-row {background: rgb(92, 182, 92) !important; color:white;}
+.red-row {background: rgb(217, 83, 79) !important; color:white;}
+.selected {background: rgb(40, 96, 144) !important; color:white;}
