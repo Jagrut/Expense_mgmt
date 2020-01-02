@@ -34,4 +34,18 @@ Admin page for Expense management.
 
         $ pip3 install -r requirements.txt
 
+### Project Setup
+* Open the settings.py file and edit the postgres details as per your setup
+* Make sure expense_db is created in Postgresql
+* Run Migrations in django by following commands Which will create db tables
 
+        $ python manage.py makemigrations expense_management
+        $ python manage.py migrate expense_management
+
+* Run Fixtures in django by following commands Which will populate expense_status table
+
+        $ python manage.py loaddata expense_status.json
+
+### Command to run the Project
+
+        $ python manage.py runserver
