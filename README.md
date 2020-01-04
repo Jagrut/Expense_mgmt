@@ -47,9 +47,11 @@ Admin page for Expense management.
         $ python manage.py loaddata expense_status.json
 
 * To generate random expense run below command several times.
+
         $ curl -X POST http://localhost:8000/api/v1/expense
 
 * Command to run the Project
+
         $ python manage.py runserver
 
 * Now just point your browser to http://localhost:8000/api/v1/home.
