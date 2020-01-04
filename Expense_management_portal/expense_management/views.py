@@ -16,7 +16,10 @@ import requests
 import re
 import json
 
-def index(request):
+def home(request):
+    """
+    Load home page.
+    """
     expenses = Expense.objects.order_by('-created_at')
     list_of_dicts = list(expenses.values())
     total_expenses_len = len(list_of_dicts)
@@ -29,26 +32,26 @@ def index(request):
                      "declined_expenses": declined_expenses_len}
     return render(request, "expense_management/html/bootstrap1.html", {"data": json.dumps(expense_stats, cls=DjangoJSONEncoder)})
 
-# Create your views here.
 class ExpenseViewSet(viewsets.ModelViewSet):
+    """
+    This class will answer jqeury datatables's request.
+    """
     queryset = Expense.objects.all().order_by('-created_at')
     serializer_class = ExpenseSerializer
 
-    #def get_options(self):
-    #    return get_album_options()
-
-    #class Meta:
-    #    datatables_extra_json = ('get_options', )
-
 class Expense_Mgr(generics.GenericAPIView):
-    """
-    Generate a random Expense.
-    """
     serializer_class = ExpenseSerializer
     def post(self, request, format=None):
+        """
+        Generate a random Expense.
+        """
         url = 'https://cashcog.xcnt.io/single'
-        resp = requests.get(url)
-        #data = {"message": "Something went wrong, Please contact your administrator."}
+        data = {"message": "Something went wrong, Please contact your administrator."}
+        try:
+            resp = requests.get(url)
+        except Exception as e:
+            print("Exception occured, {} ".format(e))
+            return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         if resp.ok:
             data = resp.json()
             expense_status = Expense_status.objects.get(pk=1)
@@ -62,24 +65,6 @@ class Expense_Mgr(generics.GenericAPIView):
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    #def get(self, request, format=None):
-    #    """
-    #    Get all expenses.
-    #    """
-    #    expenses = Expense.objects.order_by('-created_at')
-    #    serializer = ExpenseSerializer(expenses, many=True)
-    #    #list_of_dicts = list(expenses.values())
-    #    #total_expenses_len = len(list_of_dicts)
-    #    #pending_expenses_len = len(list(filter(lambda x: x['status_id'] == 1, list_of_dicts)))
-    #    #accepted_expenses_len = len(list(filter(lambda x: x['status_id'] == 2, list_of_dicts)))
-    #    #declined_expenses_len = total_expenses_len - (pending_expenses_len + accepted_expenses_len)
-    #    #expense_stats = {"total_expenses": total_expenses_len,
-    #    #                 "pending_expenses": pending_expenses_len,
-    #    #                 "accepted_expenses": accepted_expenses_len,
-    #    #                 "declined_expenses": declined_expenses_len}
-    #    #list_of_dicts.append(expense_stats)
-    #    return Response(serializer.data)
-    #    #return render(request, "expense_management/html/bootstrap1.html", {"data": json.dumps(list_of_dicts, cls=DjangoJSONEncoder)})
     def patch(self, request, format=None):
         """
         Update expenses.
@@ -92,4 +77,4 @@ class Expense_Mgr(generics.GenericAPIView):
         for index, obj in expense_objs.items():
             obj.status = expense_status
             obj.save()
-        return Response("success")
+        return Response("Success")

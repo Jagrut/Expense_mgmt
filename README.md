@@ -32,7 +32,7 @@ Admin page for Expense management.
 * Install python project dependencies for dev environment
 
 
-        $ pip3 install -r requirements.txt
+        $ pip install -r requirements.txt
 
 ### Project Setup
 * Open the settings.py file and edit the postgres details as per your setup
@@ -46,6 +46,10 @@ Admin page for Expense management.
 
         $ python manage.py loaddata expense_status.json
 
-### Command to run the Project
+* To generate random expense run below command several times.
+        $ curl -X POST http://localhost:8000/api/v1/expense
 
+* Command to run the Project
         $ python manage.py runserver
+
+* Now just point your browser to http://localhost:8000/api/v1/home.

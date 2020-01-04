@@ -24,7 +24,7 @@ router.register(r'expense', views.ExpenseViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/home', views.index),
+    path('api/v1/home', views.home),
     url('^api/v1/', include(router.urls)),
     path('',include('expense_management.urls'))
 ]

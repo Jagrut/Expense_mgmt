@@ -19,7 +19,7 @@ $(document).ready(function() {
             "selector": 'td:nth-child(2)'
         },
         "drawCallback": function() {
-            datatable_loaded();
+            wait_till_datatable_loads();
         }
     });
     
@@ -43,7 +43,6 @@ $(document).ready(function() {
           contentType: 'application/json; charset=utf-8'
           })
     }
-    var endpoint = "api/v1/expense";
 
     var t = $('#example').DataTable();
     rows_len = 0;
@@ -55,7 +54,7 @@ $(document).ready(function() {
     $('.stats b:first-child').eq(2).text(js_obj.accepted_expenses);
     $('.stats b:first-child').eq(3).text(js_obj.declined_expenses);
 
-    async function datatable_loaded(){
+    async function wait_till_datatable_loads(){
         while (true){
             t = $('#example').DataTable();
             var temp = t.rows().nodes().length
@@ -74,16 +73,16 @@ $(document).ready(function() {
             var status = $(rows[i]).find('td:last').text();
             if (status == "Pending"){
                 $(rows[i]).addClass('orange-row');
-                td_add_class("orange-row", rows[i]);
+                td_change_class("orange-row", rows[i]);
 
             }
             else if (status == "Accepted"){
                 $(rows[i]).addClass('green-row');
-                td_add_class("green-row", rows[i]);
+                td_change_class("green-row", rows[i]);
             }
             else if (status == "Declined"){
                 $(rows[i]).addClass('red-row');
-                td_add_class("red-row", rows[i]);
+                td_change_class("red-row", rows[i]);
             }
         };
     }
@@ -94,7 +93,7 @@ $(document).ready(function() {
         });
     });
 
-    function td_add_class(class_name, row){
+    function td_change_class(class_name, row){
         $('td', row).each(function(index){
             for(let i of color_class_arr){
                 if (i != class_name){
@@ -105,24 +104,24 @@ $(document).ready(function() {
         });
     }
 
-    function change_class(class_name){
+    function add_class(class_name, class_to_be_added="selected"){
         var rows = t.rows(class_name).nodes();
         var rows_len = rows.length;
         for(let i=0; i<rows_len; i++) {
-            $(rows[i]).addClass('selected');
+            $(rows[i]).addClass(class_to_be_added);
             $('td', rows[i]).each(function(index){
-                $(this).addClass('selected');
+                $(this).addClass(class_to_be_added);
             });
         };
     }
     $('#sel-all-pendings').click( function () {
-        change_class('.orange-row');
+        add_class('.orange-row');
     });
     $('#sel-all-declined').click( function () {
-        change_class('.red-row');
+        add_class('.red-row');
     });
     $('#sel-all-accepted').click( function () {
-        change_class('.green-row');
+        add_class('.green-row');
     });
 
     $('#desel-all').click( function () {
@@ -136,7 +135,31 @@ $(document).ready(function() {
         };
     });
 
-    function change_table_status(id, class_name){
+    function get_stats_inx(status_str){
+        var inx = 0;
+        if (status_str == 'Accepted'){
+            inx = 2;
+        }
+        else if (status_str == 'Declined'){
+            inx = 3;
+        }
+        else if (status_str == 'Pending'){
+            inx = 1;
+        }
+        return inx
+
+    }
+
+    function update_stats(cur_status_str, updated_str){
+        var cur_inx = get_stats_inx(cur_status_str);
+        var cur_val = $('.stats b:first-child').eq(cur_inx).text();
+        $('.stats b:first-child').eq(cur_inx).text(Number(cur_val) - 1);
+        var updated_inx = get_stats_inx(updated_str);
+        var updated_val = $('.stats b:first-child').eq(updated_inx).text();
+        $('.stats b:first-child').eq(updated_inx).text(Number(updated_val) + 1);
+    }
+
+    function update_table(id, class_name, status_str){
         var rows = t.rows('.selected').nodes();
         var rows_len = rows.length;
         var id_arr = [];
@@ -149,7 +172,10 @@ $(document).ready(function() {
         makeAjaxCall(URL, "PATCH", id_arr).then(function(respJson){
             for(let i=0; i<rows_len; i++) {
                 $(rows[i]).click();
-                td_add_class(class_name, rows[i]);
+                cur_status_str = $(rows[i]).find('td:last').text();
+                update_stats(cur_status_str, status_str);
+                td_change_class(class_name, rows[i]);
+                $(rows[i]).find('td:last').text(status_str);
             };
             $("#temp-msg-success").removeClass("hidden");
             setTimeout(function() { $("#temp-msg-success").addClass("hidden"); }, 5000);
@@ -162,12 +188,12 @@ $(document).ready(function() {
     }
 
     $('#accept').click( function () {
-        change_table_status("2", "green-row");
+        update_table("2", "green-row", "Accepted");
     });
     $('#decline').click( function () {
-        change_table_status("3", "red-row");
+        update_table("3", "red-row", "Declined");
     });
     $('#pending').click( function () {
-        change_table_status("1", "orange-row");
+        update_table("1", "orange-row", "Pending");
     });
 } );
