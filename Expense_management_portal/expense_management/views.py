@@ -8,6 +8,7 @@ from expense_management.models import (
 )
 from expense_management.serializers import (
     ExpenseSerializer,
+    RandomExpenseSerializer,
 )
 from django.shortcuts import render
 from django.core.serializers.json import DjangoJSONEncoder
@@ -54,6 +55,10 @@ class Expense_Mgr(generics.GenericAPIView):
             return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         if resp.ok:
             data = resp.json()
+            serializer = RandomExpenseSerializer(data=data)
+            if not serializer.is_valid():
+                print("Request Body malformed {}".format(serializer.errors))
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             expense_status = Expense_status.objects.get(pk=1)
             emp_dict = data['employee']
             date_time_tuple = list(map(int, re.search(r'(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)', data["created_at"]).groups()))

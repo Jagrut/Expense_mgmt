@@ -28,4 +28,14 @@ class ExpenseSerializer(serializers.ModelSerializer):
             'currency', 'created_at', 'status',
         )
 
+class EmployeeSerializer(serializers.Serializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
 
+class RandomExpenseSerializer(serializers.Serializer):
+    description = serializers.CharField()
+    amount = serializers.IntegerField()
+    currency = serializers.CharField()
+    created_at = serializers.CharField()
+    employee = EmployeeSerializer()
+                                      
