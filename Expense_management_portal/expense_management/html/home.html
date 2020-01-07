@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Manage Your Expense</title>
-	<meta name="viewport" content="width=device-width">
-	<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <title>Manage Your Expense</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
@@ -40,20 +40,23 @@
         </div>
     </div>
     <h1>Manage Expense</h1>
-    <div class="alert alert-success hidden" id="temp-msg-success">
-        Expenses updated <strong>Successfully !.</strong>
+    <div class="alert alert-success hidden alert-style" id="temp-msg-success">
+        Expenses updated <strong>Successfully !</strong>
     </div>
-    <div class="alert alert-danger hidden" id="temp-msg-danger">
-        <strong>Oh!</strong> Something went wrong. Please try after some time or Contact your administrator! Change a few things up and try submitting again.
+    <div class="alert alert-info hidden alert-style" id="temp-msg-info">
+        Please select some record !
+    </div>
+    <div class="alert alert-danger hidden alert-style" id="temp-msg-danger">
+        <strong>Oh!</strong> Something went wrong, Please try after some time or Contact your administrator!
     </div>
     <div class="row">
-	    <button type="button" class="btn btn-lg btn-success btn-cls col-md-3 col-sm-4 col-xs-6" id="accept">Accept</button>
-        <button type="button" class="btn btn-lg btn-danger btn-cls col-md-3 col-sm-4 col-xs-6" id="decline">Decline</button>
-        <button type="button" class="btn btn-lg btn-warning btn-cls col-md-3 col-sm-4 col-xs-6" id="pending">Pending</button>
-        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-4 col-xs-6" id="sel-all-pendings">Select All Pendings</button>
-        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-4 col-xs-6" id="sel-all-declined">Select All Declined</button>
-        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-4 col-xs-6" id="sel-all-accepted">Select All Accepted</button>
-        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-4 col-xs-6" id="desel-all">Deselect All</button>
+	    <button type="button" class="btn btn-lg btn-success btn-cls col-md-3 col-sm-3 col-xs-3" id="accept">Accept</button>
+        <button type="button" class="btn btn-lg btn-danger btn-cls col-md-3 col-sm-3 col-xs-3" id="decline">Decline</button>
+        <button type="button" class="btn btn-lg btn-warning btn-cls col-md-3 col-sm-3 col-xs-3" id="pending">Pending</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="sel-all-pendings">Select All Pendings</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="sel-all-declined">Select All Declined</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="sel-all-accepted">Select All Accepted</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="desel-all">Deselect All</button>
     </div>
 	<table id="example" class="display nowrap" style="width:100%">
         <thead>

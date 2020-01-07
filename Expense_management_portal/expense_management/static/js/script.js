@@ -162,16 +162,27 @@ $(document).ready(function() {
     function update_table(id, class_name, status_str){
         var rows = t.rows('.selected').nodes();
         var rows_len = rows.length;
+        if (rows_len == 0){
+            $("#temp-msg-info").removeClass("hidden");
+            setTimeout(function() { $("#temp-msg-info").addClass("hidden"); }, 5000);
+            return
+        }
         var id_arr = [];
         for(let i=0; i<rows_len; i++) {
             id_arr.push(rows[i].id);
         };
         
         id_arr.push(id);
-        var URL = "http://localhost:8000/api/v1/expense"
+        var URL = "http://localhost:8000/api/v1/expense";
         makeAjaxCall(URL, "PATCH", id_arr).then(function(respJson){
             for(let i=0; i<rows_len; i++) {
                 $(rows[i]).click();
+                var color_set = new Set(color_class_arr);
+                color_set.delete(class_name);
+                for(var j of color_set) {
+                    $(rows[i]).removeClass(j);
+                }
+                $(rows[i]).addClass(class_name);
                 cur_status_str = $(rows[i]).find('td:last').text();
                 update_stats(cur_status_str, status_str);
                 td_change_class(class_name, rows[i]);
