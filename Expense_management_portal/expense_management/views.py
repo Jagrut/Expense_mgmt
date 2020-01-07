@@ -39,7 +39,7 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     queryset = Expense.objects.all().order_by('-created_at')
     serializer_class = ExpenseSerializer
 
-class Expense_Mgr(generics.GenericAPIView):
+class ExpenseMgr(generics.GenericAPIView):
     serializer_class = ExpenseSerializer
     def post(self, request, format=None):
         """
