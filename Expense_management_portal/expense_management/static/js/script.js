@@ -5,8 +5,8 @@ $(document).ready(function() {
         "serverSide": true,
         "ajax": "/api/v1/expense/?format=datatables",
         "columns": [
-            {"data": "first_name"},
-            {"data": "last_name"},
+            {"data": "first_name", "name": "employee.first_name"},
+            {"data": "last_name", "name": "employee.last_name"},
             {"data": "description"},
             {"data": "amount"},
             {"data": "currency"},
@@ -25,6 +25,15 @@ $(document).ready(function() {
     
     var color_class_arr = ['red-row', 'orange-row', 'green-row', 'selected'];
 
+    var URL = "http://localhost/api/v1/stat"
+    makeAjaxCall(URL, "GET").then(function(respJson){
+        console.log("stat request made ...");
+        console.info(respJson);
+        $('.stats b:first-child').eq(0).text(respJson.total_expenses);
+        $('.stats b:first-child').eq(1).text(respJson.pending_expenses);
+        $('.stats b:first-child').eq(2).text(respJson.accepted_expenses);
+        $('.stats b:first-child').eq(3).text(respJson.declined_expenses);
+    })
     // Sleep function.
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -34,7 +43,7 @@ $(document).ready(function() {
         $(this).toggleClass('selected');
     } );
  
-    function makeAjaxCall(url, methodType, data){
+    function makeAjaxCall(url, methodType, data=null){
         return $.ajax({
   	      url : url,
           method :  methodType,
@@ -46,13 +55,6 @@ $(document).ready(function() {
 
     var t = $('#example').DataTable();
     rows_len = 0;
-    js_obj = JSON.parse(data);
-
-    // Fill stats.
-    $('.stats b:first-child').eq(0).text(js_obj.total_expenses);
-    $('.stats b:first-child').eq(1).text(js_obj.pending_expenses);
-    $('.stats b:first-child').eq(2).text(js_obj.accepted_expenses);
-    $('.stats b:first-child').eq(3).text(js_obj.declined_expenses);
 
     async function wait_till_datatable_loads(){
         while (true){
@@ -162,6 +164,7 @@ $(document).ready(function() {
     function update_table(id, class_name, status_str){
         var rows = t.rows('.selected').nodes();
         var rows_len = rows.length;
+        console.log("rows_len " + rows_len);
         if (rows_len == 0){
             $("#temp-msg-info").removeClass("hidden");
             setTimeout(function() { $("#temp-msg-info").addClass("hidden"); }, 5000);
@@ -173,16 +176,10 @@ $(document).ready(function() {
         };
         
         id_arr.push(id);
-        var URL = "http://localhost:8000/api/v1/expense";
+        var URL = "http://localhost/api/v1/expense"
         makeAjaxCall(URL, "PATCH", id_arr).then(function(respJson){
             for(let i=0; i<rows_len; i++) {
                 $(rows[i]).click();
-                var color_set = new Set(color_class_arr);
-                color_set.delete(class_name);
-                for(var j of color_set) {
-                    $(rows[i]).removeClass(j);
-                }
-                $(rows[i]).addClass(class_name);
                 cur_status_str = $(rows[i]).find('td:last').text();
                 update_stats(cur_status_str, status_str);
                 td_change_class(class_name, rows[i]);

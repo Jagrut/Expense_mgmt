@@ -4,7 +4,7 @@ Admin page for Expense management.
 ### Software Requirments
 
     Python 3
-    Postgresql 9.5
+    Postgresql 9.5+
 
 
 ### Clone Repo

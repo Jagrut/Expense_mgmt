@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Your Expense</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/rowreorder/1.2.6/css/rowReorder.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Stats</h1>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="stats expense">
+                <b></b><br>
+                <span>Total Expenses</span>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="stats pending">
+                <b></b><br>
+                <span>Pending </span> 
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="stats accepted">
+                <b></b><br>
+                <span>Accepted</span> 
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-6">
+            <div class="stats declined">
+                <b></b><br>
+                <span>Declined</span> 
+            </div>
+        </div>
+    </div>
+    <h1>Manage Expense</h1>
+    <div class="alert alert-success hidden alert-style" id="temp-msg-success">
+        Expenses updated <strong>Successfully !</strong>
+    </div>
+    <div class="alert alert-info hidden alert-style" id="temp-msg-info">
+        Please select some record !
+    </div>
+    <div class="alert alert-danger hidden alert-style" id="temp-msg-danger">
+        <strong>Oh!</strong> Something went wrong, Please try after some time or Contact your administrator!
+    </div>
+    <div class="row">
+	    <button type="button" class="btn btn-lg btn-success btn-cls col-md-3 col-sm-3 col-xs-3" id="accept">Accept</button>
+        <button type="button" class="btn btn-lg btn-danger btn-cls col-md-3 col-sm-3 col-xs-3" id="decline">Decline</button>
+        <button type="button" class="btn btn-lg btn-warning btn-cls col-md-3 col-sm-3 col-xs-3" id="pending">Pending</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="sel-all-pendings">Select All Pendings</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="sel-all-declined">Select All Declined</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="sel-all-accepted">Select All Accepted</button>
+        <button type="button" class="btn btn-lg btn-primary btn-cls col-md-3 col-sm-3 col-xs-3" id="desel-all">Deselect All</button>
+    </div>
+	<table id="example" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Created at</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+            	<th>First Name</th>
+                <th>Last Name</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Created at</th>
+                <th>Status</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.6/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="http://localhost/static/css/style.css">
+<!--<script>
+    var data = '{{data|safe}}';
+</script>-->
+<script type="text/javascript" src="http://localhost/static/js/script.js"></script>
+</body>
+</html>

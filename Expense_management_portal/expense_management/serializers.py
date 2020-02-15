@@ -2,6 +2,7 @@ from rest_framework import serializers
 from expense_management.models import (
     Expense_status,
     Expense,
+    Employee,
 )
 class ExpenseStatusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,8 +11,17 @@ class ExpenseStatusSerializer(serializers.ModelSerializer):
             'id', 'status',
         )
 
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = (
+            'first_name', 'last_name',
+        )
+
 class ExpenseSerializer(serializers.ModelSerializer):
     status = serializers.ReadOnlyField(source='status.status')
+    first_name = serializers.ReadOnlyField(source='employee.first_name')
+    last_name = serializers.ReadOnlyField(source='employee.last_name')
     DT_RowId = serializers.SerializerMethodField()
     DT_RowAttr = serializers.SerializerMethodField()
 
@@ -28,14 +38,4 @@ class ExpenseSerializer(serializers.ModelSerializer):
             'currency', 'created_at', 'status',
         )
 
-class EmployeeSerializer(serializers.Serializer):
-    first_name = serializers.CharField()
-    last_name = serializers.CharField()
 
-class RandomExpenseSerializer(serializers.Serializer):
-    description = serializers.CharField()
-    amount = serializers.IntegerField()
-    currency = serializers.CharField()
-    created_at = serializers.CharField()
-    employee = EmployeeSerializer()
-                                      

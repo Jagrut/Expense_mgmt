@@ -77,12 +77,13 @@ WSGI_APPLICATION = 'Expense_management_portal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'expense_db',
         'USER': 'postgres',
-        'PASSWORD': 'xxxx',
+        'PASSWORD': 'tnt',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }
 

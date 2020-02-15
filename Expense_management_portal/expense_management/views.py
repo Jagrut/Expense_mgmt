@@ -5,7 +5,11 @@ from rest_framework import viewsets
 from expense_management.models import (
     Expense_status,
     Expense,
+    Employee,
 )
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import TemplateHTMLRenderer
 from expense_management.serializers import (
     ExpenseSerializer,
 )
@@ -16,9 +20,11 @@ import requests
 import re
 import json
 
-def home(request):
+@api_view(('GET',))
+@renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def stat(request):
     """
-    Load home page.
+    Get statistics.
     """
     expenses = Expense.objects.order_by('-created_at')
     list_of_dicts = list(expenses.values())
@@ -30,7 +36,8 @@ def home(request):
                      "pending_expenses": pending_expenses_len,
                      "accepted_expenses": accepted_expenses_len,
                      "declined_expenses": declined_expenses_len}
-    return render(request, "expense_management/html/home.html", {"data": json.dumps(expense_stats, cls=DjangoJSONEncoder)})
+    #return render(request, "expense_management/html/home.html", {"data": json.dumps(expense_stats, cls=DjangoJSONEncoder)})
+    return Response(expense_stats, status=status.HTTP_200_OK)
 
 class ExpenseViewSet(viewsets.ModelViewSet):
     """
@@ -39,7 +46,7 @@ class ExpenseViewSet(viewsets.ModelViewSet):
     queryset = Expense.objects.all().order_by('-created_at')
     serializer_class = ExpenseSerializer
 
-class ExpenseMgr(generics.GenericAPIView):
+class Expense_Mgr(generics.GenericAPIView):
     serializer_class = ExpenseSerializer
     def post(self, request, format=None):
         """
@@ -55,10 +62,13 @@ class ExpenseMgr(generics.GenericAPIView):
         if resp.ok:
             data = resp.json()
             expense_status = Expense_status.objects.get(pk=1)
+           
             emp_dict = data['employee']
+            emp = Employee(first_name=emp_dict['first_name'], last_name=emp_dict['last_name'],
+                           employee_uuid=emp_dict['uuid'])
             date_time_tuple = list(map(int, re.search(r'(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)', data["created_at"]).groups()))
-            obj = Expense(first_name=emp_dict["first_name"], last_name=emp_dict['last_name'],
-                          description=data["description"], amount=data["amount"],
+            emp.save()
+            obj = Expense(employee=emp, description=data["description"], amount=data["amount"],
                           currency=data["currency"], created_at=datetime(*date_time_tuple[:]),
                           status=expense_status)
             obj.save()
