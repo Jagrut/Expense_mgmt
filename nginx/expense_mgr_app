@@ -5,7 +5,7 @@ server {
                 proxy_pass "http://localhost:8000";
         }
 
-        location /home/ {
+        location /home {
                 root /home/jk/xcnt/Expense_management_portal/expense_management/html;
                 index index.html;
         }
